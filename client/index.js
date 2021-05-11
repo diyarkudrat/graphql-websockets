@@ -5,9 +5,20 @@ const messageInput = document.querySelector('#message-input');
 
 let ws;
 
+function calcColor(msg) {
+    let num = 0;
+    for (let i = 0; i < msg.length; i++) {
+        num += msg.charCodeAt(i);
+    }
+
+    return num % 360;
+}
+
 // Display messages from websocket
 function showMessage(msg) {
-    messages.innerHTML += `${msg}\n\n`;
+    let hue = calcColor(msg.name);
+    const htmlDisplay = <li><span class="name" style="color: hsl(${hue}, 80%, 50%)">${msg.name}</span>: ${msg.message}</li>;
+    messages.innerHTML += htmlDisplay;
     messages.scrollTop = messages.scrollHeight;
     messageInput.value = '';
 }
